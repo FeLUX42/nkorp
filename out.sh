@@ -1,0 +1,3 @@
+./plot.sh
+./render.sh
+
