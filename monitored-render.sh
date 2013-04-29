@@ -19,9 +19,19 @@
 # 		Felix Passenberg <fc.passenberg@gmail.com>
 #
 
-g++ main-nolong.cpp -fexpensive-optimizations -msse -msse2 -msse3 -O3 -ffast-math -march=native -mtune=native -fopenmp -Wall -g -o ./nkorp
-# -g for DEBUGGING
-# -ftree.parallelize-loops=2 -ftree-loop-if-convert -finline-functions
-
-# -mtune=atom
-# -march=atom
+while true; 
+do
+	inotifywait -qr --timefmt '%d/%m/%y %H:%M' --format '%T %w %f %e' \
+-e create "./data-per" | while read DATE TIME DIR FILE EVENT;do
+	
+		#echo "in: $FILE"
+		FILECHANGE=${DIR}${FILE}
+		# convert absolute path to relative
+		FILECHANGEREL=`echo "$FILECHANGE" | sed 's_'$CURPATH'/__'`
+	
+		#echo "At ${TIME} on ${DATE}, file $FILECHANGE was backed up via rsync"
+		./out.sh
+		
+	done
+	sleep 600
+done
